@@ -1,5 +1,5 @@
 use crate::errors::*;
-use log::{debug, trace};
+use log::{debug, trace, warn};
 use std::convert::Into;
 use std::fs::{self, File};
 use std::io::Write;
@@ -77,6 +77,7 @@ pub fn remove_dir_content(dir: &Path) -> Result<()> {
     for item in fs::read_dir(dir)? {
         if let Ok(item) = item {
             let item = item.path();
+            warn!("Removing {item:?}.");
             if item.is_dir() {
                 fs::remove_dir_all(item)?;
             } else {

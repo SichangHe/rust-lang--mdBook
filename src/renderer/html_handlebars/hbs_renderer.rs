@@ -477,6 +477,7 @@ impl Renderer for HtmlHandlebars {
         let build_dir = ctx.root.join(&ctx.config.build.build_dir);
 
         if destination.exists() {
+            warn!("Cleaning up {destination:?}.");
             utils::fs::remove_dir_content(destination)
                 .with_context(|| "Unable to remove stale HTML output")?;
         }

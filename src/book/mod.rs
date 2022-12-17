@@ -190,6 +190,7 @@ impl MDBook {
         info!("Book building has started");
 
         for renderer in &self.renderers {
+            info!("Excuting build process on renderer {}.", renderer.name());
             self.execute_build_process(&**renderer)?;
         }
 

@@ -30,7 +30,7 @@ impl HtmlHandlebars {
     pub fn render_item(
         &self,
         item: &BookItem,
-        mut ctx: RenderItemContext<'_>,
+        ctx: &mut RenderItemContext<'_>,
         print_content: &mut String,
     ) -> Result<()> {
         // FIXME: This should be made DRY-er and rely less on mutable state
@@ -146,7 +146,7 @@ impl HtmlHandlebars {
         ctx: &RenderContext,
         html_config: &HtmlConfig,
         src_dir: &Path,
-        handlebars: &mut Handlebars<'_>,
+        handlebars: &Handlebars<'_>,
         data: &mut serde_json::Map<String, serde_json::Value>,
     ) -> Result<()> {
         let destination = &ctx.destination;
@@ -546,7 +546,7 @@ impl Renderer for HtmlHandlebars {
 
         let mut is_index = true;
         for item in book.iter() {
-            let ctx = RenderItemContext {
+            let mut ctx = RenderItemContext {
                 handlebars: &handlebars,
                 destination: destination.to_path_buf(),
                 data: data.clone(),
@@ -556,7 +556,7 @@ impl Renderer for HtmlHandlebars {
                 edition: ctx.config.rust.edition,
                 chapter_titles: &ctx.chapter_titles,
             };
-            self.render_item(item, ctx, &mut print_content)?;
+            self.render_item(item, &mut ctx, &mut print_content)?;
             // Only the first non-draft chapter item should be treated as the "index"
             is_index &= !matches!(item, BookItem::Chapter(ch) if !ch.is_draft_chapter());
         }

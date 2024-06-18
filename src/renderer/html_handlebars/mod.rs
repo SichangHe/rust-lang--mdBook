@@ -2,8 +2,8 @@
 
 pub use self::hbs_renderer::HtmlHandlebars;
 
-mod hbs_renderer;
+pub mod hbs_renderer;
 mod helpers;
 
 #[cfg(feature = "search")]
-mod search;
+pub mod search;

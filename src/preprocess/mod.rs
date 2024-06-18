@@ -29,8 +29,9 @@ pub struct PreprocessorContext {
     pub renderer: String,
     /// The calling `mdbook` version.
     pub mdbook_version: String,
+    /// Renamed chapter paths and titles.
     #[serde(skip)]
-    pub(crate) chapter_titles: RefCell<HashMap<PathBuf, String>>,
+    pub chapter_titles: RefCell<HashMap<PathBuf, String>>,
     #[serde(skip)]
     __non_exhaustive: (),
 }

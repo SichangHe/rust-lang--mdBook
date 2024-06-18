@@ -14,7 +14,7 @@
 pub use self::html_handlebars::HtmlHandlebars;
 pub use self::markdown_renderer::MarkdownRenderer;
 
-mod html_handlebars;
+pub mod html_handlebars;
 mod markdown_renderer;
 
 use shlex::Shlex;

@@ -30,7 +30,7 @@ impl HtmlHandlebars {
         HtmlHandlebars
     }
 
-    fn render_item(
+    pub fn render_item(
         &self,
         item: &BookItem,
         mut ctx: RenderItemContext<'_>,
@@ -144,7 +144,7 @@ impl HtmlHandlebars {
         Ok(())
     }
 
-    fn render_404(
+    pub fn render_404(
         &self,
         ctx: &RenderContext,
         html_config: &HtmlConfig,
@@ -209,7 +209,8 @@ impl HtmlHandlebars {
         Ok(())
     }
 
-    fn post_process(
+    #[allow(clippy::let_and_return)]
+    pub fn post_process(
         &self,
         rendered: String,
         playground_config: &Playground,
@@ -224,8 +225,136 @@ impl HtmlHandlebars {
         rendered
     }
 
+    pub fn copy_static_files(
+        &self,
+        destination: &Path,
+        theme: &Theme,
+        html_config: &HtmlConfig,
+    ) -> Result<()> {
+        use crate::utils::fs::write_file;
+
+        write_file(
+            destination,
+            ".nojekyll",
+            b"This file makes sure that Github Pages doesn't process mdBook's output.\n",
+        )?;
+
+        if let Some(cname) = &html_config.cname {
+            write_file(destination, "CNAME", format!("{cname}\n").as_bytes())?;
+        }
+
+        write_file(destination, "book.js", &theme.js)?;
+        write_file(destination, "css/general.css", &theme.general_css)?;
+        write_file(destination, "css/chrome.css", &theme.chrome_css)?;
+        if html_config.print.enable {
+            write_file(destination, "css/print.css", &theme.print_css)?;
+        }
+        write_file(destination, "css/variables.css", &theme.variables_css)?;
+        if let Some(contents) = &theme.favicon_png {
+            write_file(destination, "favicon.png", contents)?;
+        }
+        if let Some(contents) = &theme.favicon_svg {
+            write_file(destination, "favicon.svg", contents)?;
+        }
+        write_file(destination, "highlight.css", &theme.highlight_css)?;
+        write_file(destination, "tomorrow-night.css", &theme.tomorrow_night_css)?;
+        write_file(destination, "ayu-highlight.css", &theme.ayu_highlight_css)?;
+        write_file(destination, "highlight.js", &theme.highlight_js)?;
+        write_file(destination, "clipboard.min.js", &theme.clipboard_js)?;
+        write_file(
+            destination,
+            "FontAwesome/css/font-awesome.css",
+            theme::FONT_AWESOME,
+        )?;
+        write_file(
+            destination,
+            "FontAwesome/fonts/fontawesome-webfont.eot",
+            theme::FONT_AWESOME_EOT,
+        )?;
+        write_file(
+            destination,
+            "FontAwesome/fonts/fontawesome-webfont.svg",
+            theme::FONT_AWESOME_SVG,
+        )?;
+        write_file(
+            destination,
+            "FontAwesome/fonts/fontawesome-webfont.ttf",
+            theme::FONT_AWESOME_TTF,
+        )?;
+        write_file(
+            destination,
+            "FontAwesome/fonts/fontawesome-webfont.woff",
+            theme::FONT_AWESOME_WOFF,
+        )?;
+        write_file(
+            destination,
+            "FontAwesome/fonts/fontawesome-webfont.woff2",
+            theme::FONT_AWESOME_WOFF2,
+        )?;
+        write_file(
+            destination,
+            "FontAwesome/fonts/FontAwesome.ttf",
+            theme::FONT_AWESOME_TTF,
+        )?;
+        // Don't copy the stock fonts if the user has specified their own fonts to use.
+        if html_config.copy_fonts && theme.fonts_css.is_none() {
+            write_file(destination, "fonts/fonts.css", theme::fonts::CSS)?;
+            for (file_name, contents) in theme::fonts::LICENSES.iter() {
+                write_file(destination, file_name, contents)?;
+            }
+            for (file_name, contents) in theme::fonts::OPEN_SANS.iter() {
+                write_file(destination, file_name, contents)?;
+            }
+            write_file(
+                destination,
+                theme::fonts::SOURCE_CODE_PRO.0,
+                theme::fonts::SOURCE_CODE_PRO.1,
+            )?;
+        }
+        if let Some(fonts_css) = &theme.fonts_css {
+            if !fonts_css.is_empty() {
+                write_file(destination, "fonts/fonts.css", fonts_css)?;
+            }
+        }
+        if !html_config.copy_fonts && theme.fonts_css.is_none() {
+            warn!(
+                "output.html.copy-fonts is deprecated.\n\
+                This book appears to have copy-fonts=false in book.toml without a fonts.css file.\n\
+                Add an empty `theme/fonts/fonts.css` file to squelch this warning."
+            );
+        }
+        for font_file in &theme.font_files {
+            let contents = fs::read(font_file)?;
+            let filename = font_file.file_name().unwrap();
+            let filename = Path::new("fonts").join(filename);
+            write_file(destination, filename, &contents)?;
+        }
+
+        let playground_config = &html_config.playground;
+
+        // Ace is a very large dependency, so only load it when requested
+        if playground_config.editable && playground_config.copy_js {
+            // Load the editor
+            write_file(destination, "editor.js", playground_editor::JS)?;
+            write_file(destination, "ace.js", playground_editor::ACE_JS)?;
+            write_file(destination, "mode-rust.js", playground_editor::MODE_RUST_JS)?;
+            write_file(
+                destination,
+                "theme-dawn.js",
+                playground_editor::THEME_DAWN_JS,
+            )?;
+            write_file(
+                destination,
+                "theme-tomorrow_night.js",
+                playground_editor::THEME_TOMORROW_NIGHT_JS,
+            )?;
+        }
+
+        Ok(())
+    }
+
     /// Update the context with data for this file
-    fn configure_print_version(
+    pub fn configure_print_version(
         &self,
         data: &mut serde_json::Map<String, serde_json::Value>,
         print_content: &str,
@@ -242,7 +371,7 @@ impl HtmlHandlebars {
         );
     }
 
-    fn register_hbs_helpers(&self, handlebars: &mut Handlebars<'_>, html_config: &HtmlConfig) {
+    pub fn register_hbs_helpers(&self, handlebars: &mut Handlebars<'_>, html_config: &HtmlConfig) {
         handlebars.register_helper(
             "toc",
             Box::new(helpers::toc::RenderToc {
@@ -255,7 +384,44 @@ impl HtmlHandlebars {
         handlebars.register_helper("theme_option", Box::new(helpers::theme::theme_option));
     }
 
-    fn emit_redirects(
+    /// Copy across any additional CSS and JavaScript files which the book
+    /// has been configured to use.
+    pub fn copy_additional_css_and_js(
+        &self,
+        html: &HtmlConfig,
+        root: &Path,
+        destination: &Path,
+    ) -> Result<()> {
+        let custom_files = html.additional_css.iter().chain(html.additional_js.iter());
+
+        debug!("Copying additional CSS and JS");
+
+        for custom_file in custom_files {
+            let input_location = root.join(custom_file);
+            let output_location = destination.join(custom_file);
+            if let Some(parent) = output_location.parent() {
+                fs::create_dir_all(parent)
+                    .with_context(|| format!("Unable to create {}", parent.display()))?;
+            }
+            debug!(
+                "Copying {} -> {}",
+                input_location.display(),
+                output_location.display()
+            );
+
+            fs::copy(&input_location, &output_location).with_context(|| {
+                format!(
+                    "Unable to copy {} to {}",
+                    input_location.display(),
+                    output_location.display()
+                )
+            })?;
+        }
+
+        Ok(())
+    }
+
+    pub fn emit_redirects(
         &self,
         root: &Path,
         handlebars: &Handlebars<'_>,
@@ -486,7 +652,7 @@ impl Renderer for HtmlHandlebars {
     }
 }
 
-fn make_data(
+pub fn make_data(
     root: &Path,
     book: &Book,
     config: &Config,
@@ -920,15 +1086,15 @@ fn partition_source(s: &str) -> (String, String) {
     (before, after)
 }
 
-struct RenderItemContext<'a> {
-    handlebars: &'a Handlebars<'a>,
-    destination: PathBuf,
-    data: serde_json::Map<String, serde_json::Value>,
-    is_index: bool,
-    book_config: BookConfig,
-    html_config: HtmlConfig,
-    edition: Option<RustEdition>,
-    chapter_titles: &'a HashMap<PathBuf, String>,
+pub struct RenderItemContext<'a> {
+    pub handlebars: &'a Handlebars<'a>,
+    pub destination: PathBuf,
+    pub data: serde_json::Map<String, serde_json::Value>,
+    pub is_index: bool,
+    pub book_config: BookConfig,
+    pub html_config: HtmlConfig,
+    pub edition: Option<RustEdition>,
+    pub chapter_titles: &'a HashMap<PathBuf, String>,
 }
 
 #[cfg(test)]

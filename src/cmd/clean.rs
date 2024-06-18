@@ -1,7 +1,7 @@
 use super::command_prelude::*;
 use crate::get_book_dir;
 use anyhow::Context;
-use mdbook::MDBook;
+use mdbook_fork4ls::MDBook;
 use std::mem::take;
 use std::path::PathBuf;
 use std::{fmt, fs};
@@ -15,7 +15,7 @@ pub fn make_subcommand() -> Command {
 }
 
 // Clean command implementation
-pub fn execute(args: &ArgMatches) -> mdbook::errors::Result<()> {
+pub fn execute(args: &ArgMatches) -> mdbook_fork4ls::errors::Result<()> {
     let book_dir = get_book_dir(args);
     let book = MDBook::load(book_dir)?;
 
@@ -47,7 +47,7 @@ pub struct Clean {
 }
 
 impl Clean {
-    fn new(dir: &PathBuf) -> mdbook::errors::Result<Clean> {
+    fn new(dir: &PathBuf) -> mdbook_fork4ls::errors::Result<Clean> {
         let mut files = vec![dir.clone()];
         let mut children = Vec::new();
         let mut num_files_removed = 0;

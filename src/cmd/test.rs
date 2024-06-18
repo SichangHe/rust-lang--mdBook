@@ -2,8 +2,8 @@ use super::command_prelude::*;
 use crate::get_book_dir;
 use clap::builder::NonEmptyStringValueParser;
 use clap::ArgAction;
-use mdbook::errors::Result;
-use mdbook::MDBook;
+use mdbook_fork4ls::errors::Result;
+use mdbook_fork4ls::MDBook;
 use std::path::PathBuf;
 
 // Create clap subcommand arguments

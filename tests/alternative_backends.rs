@@ -1,7 +1,7 @@
 //! Integration tests to make sure alternative backends work.
 
-use mdbook::config::Config;
-use mdbook::MDBook;
+use mdbook_fork4ls::config::Config;
+use mdbook_fork4ls::MDBook;
 use std::fs;
 use std::path::Path;
 use tempfile::{Builder as TempFileBuilder, TempDir};
@@ -41,7 +41,7 @@ fn alternate_backend_with_arguments() {
 
 #[test]
 fn backends_receive_render_context_via_stdin() {
-    use mdbook::renderer::RenderContext;
+    use mdbook_fork4ls::renderer::RenderContext;
     use std::fs::File;
 
     let (md, temp) = dummy_book_with_backend("cat-to-file", "renderers/myrenderer", false);

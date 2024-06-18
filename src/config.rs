@@ -9,10 +9,10 @@
 //! # Examples
 //!
 //! ```rust
-//! # use mdbook::errors::*;
+//! # use mdbook_fork4ls::errors::*;
 //! use std::path::PathBuf;
 //! use std::str::FromStr;
-//! use mdbook::Config;
+//! use mdbook_fork4ls::Config;
 //! use toml::Value;
 //!
 //! # fn run() -> Result<()> {

@@ -1,8 +1,8 @@
 mod dummy_book;
 
 use crate::dummy_book::DummyBook;
-use mdbook::preprocess::{CmdPreprocessor, Preprocessor};
-use mdbook::MDBook;
+use mdbook_fork4ls::preprocess::{CmdPreprocessor, Preprocessor};
+use mdbook_fork4ls::MDBook;
 
 fn example() -> CmdPreprocessor {
     CmdPreprocessor::new(

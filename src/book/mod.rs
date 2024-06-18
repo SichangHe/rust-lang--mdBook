@@ -40,10 +40,10 @@ pub struct MDBook {
     pub config: Config,
     /// A representation of the book's contents in memory.
     pub book: Book,
-    renderers: Vec<Box<dyn Renderer>>,
-
+    /// List of renderers to render the book.
+    pub renderers: Vec<Box<dyn Renderer>>,
     /// List of pre-processors to be run on the book.
-    preprocessors: Vec<Box<dyn Preprocessor>>,
+    pub preprocessors: Vec<Box<dyn Preprocessor>>,
 }
 
 impl MDBook {

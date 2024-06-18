@@ -67,8 +67,9 @@ pub struct RenderContext {
     /// renderers to cache intermediate results, this directory is not
     /// guaranteed to be empty or even exist.
     pub destination: PathBuf,
+    /// Renamed chapter paths and titles.
     #[serde(skip)]
-    pub(crate) chapter_titles: HashMap<PathBuf, String>,
+    pub chapter_titles: HashMap<PathBuf, String>,
     #[serde(skip)]
     __non_exhaustive: (),
 }

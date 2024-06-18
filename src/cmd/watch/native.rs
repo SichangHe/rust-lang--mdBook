@@ -1,7 +1,7 @@
 //! A filesystem watcher using native operating system facilities.
 
 use ignore::gitignore::Gitignore;
-use mdbook::MDBook;
+use mdbook_fork4ls::MDBook;
 use std::path::{Path, PathBuf};
 use std::sync::mpsc::channel;
 use std::thread::sleep;

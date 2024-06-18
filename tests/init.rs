@@ -1,5 +1,5 @@
-use mdbook::config::Config;
-use mdbook::MDBook;
+use mdbook_fork4ls::config::Config;
+use mdbook_fork4ls::MDBook;
 use pretty_assertions::assert_eq;
 use std::fs;
 use std::fs::File;

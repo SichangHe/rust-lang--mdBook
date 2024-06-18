@@ -1,4 +1,4 @@
-use mdbook::MDBook;
+use mdbook_fork4ls::MDBook;
 
 #[test]
 fn remove_emphasis_works() {

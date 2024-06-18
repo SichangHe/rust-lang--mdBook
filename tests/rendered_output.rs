@@ -3,10 +3,10 @@ mod dummy_book;
 use crate::dummy_book::{assert_contains_strings, assert_doesnt_contain_strings, DummyBook};
 
 use anyhow::Context;
-use mdbook::config::Config;
-use mdbook::errors::*;
-use mdbook::utils::fs::write_file;
-use mdbook::MDBook;
+use mdbook_fork4ls::config::Config;
+use mdbook_fork4ls::errors::*;
+use mdbook_fork4ls::utils::fs::write_file;
+use mdbook_fork4ls::MDBook;
 use pretty_assertions::assert_eq;
 use select::document::Document;
 use select::predicate::{Attr, Class, Name, Predicate};
@@ -500,7 +500,7 @@ fn theme_dir_overrides_work_correctly() {
     let book_dir = book_dir.path();
     let theme_dir = book_dir.join("theme");
 
-    let mut index = mdbook::theme::INDEX.to_vec();
+    let mut index = mdbook_fork4ls::theme::INDEX.to_vec();
     index.extend_from_slice(b"\n<!-- This is a modified index.hbs! -->");
 
     write_file(&theme_dir, "index.hbs", &index).unwrap();
@@ -736,7 +736,7 @@ fn failure_on_missing_theme_directory() {
 #[cfg(feature = "search")]
 mod search {
     use crate::dummy_book::DummyBook;
-    use mdbook::MDBook;
+    use mdbook_fork4ls::MDBook;
     use std::fs::{self, File};
     use std::path::Path;
 

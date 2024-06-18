@@ -27,7 +27,7 @@ impl HtmlHandlebars {
         HtmlHandlebars
     }
 
-    fn render_item(
+    pub fn render_item(
         &self,
         item: &BookItem,
         mut ctx: RenderItemContext<'_>,
@@ -141,7 +141,7 @@ impl HtmlHandlebars {
         Ok(())
     }
 
-    fn render_404(
+    pub fn render_404(
         &self,
         ctx: &RenderContext,
         html_config: &HtmlConfig,
@@ -207,7 +207,7 @@ impl HtmlHandlebars {
     }
 
     #[allow(clippy::let_and_return)]
-    fn post_process(
+    pub fn post_process(
         &self,
         rendered: String,
         playground_config: &Playground,
@@ -222,7 +222,7 @@ impl HtmlHandlebars {
         rendered
     }
 
-    fn copy_static_files(
+    pub fn copy_static_files(
         &self,
         destination: &Path,
         theme: &Theme,
@@ -351,7 +351,7 @@ impl HtmlHandlebars {
     }
 
     /// Update the context with data for this file
-    fn configure_print_version(
+    pub fn configure_print_version(
         &self,
         data: &mut serde_json::Map<String, serde_json::Value>,
         print_content: &str,
@@ -368,7 +368,7 @@ impl HtmlHandlebars {
         );
     }
 
-    fn register_hbs_helpers(&self, handlebars: &mut Handlebars<'_>, html_config: &HtmlConfig) {
+    pub fn register_hbs_helpers(&self, handlebars: &mut Handlebars<'_>, html_config: &HtmlConfig) {
         handlebars.register_helper(
             "toc",
             Box::new(helpers::toc::RenderToc {
@@ -383,7 +383,7 @@ impl HtmlHandlebars {
 
     /// Copy across any additional CSS and JavaScript files which the book
     /// has been configured to use.
-    fn copy_additional_css_and_js(
+    pub fn copy_additional_css_and_js(
         &self,
         html: &HtmlConfig,
         root: &Path,
@@ -418,7 +418,7 @@ impl HtmlHandlebars {
         Ok(())
     }
 
-    fn emit_redirects(
+    pub fn emit_redirects(
         &self,
         root: &Path,
         handlebars: &Handlebars<'_>,
@@ -625,7 +625,7 @@ impl Renderer for HtmlHandlebars {
     }
 }
 
-fn make_data(
+pub fn make_data(
     root: &Path,
     book: &Book,
     config: &Config,
@@ -1059,15 +1059,15 @@ fn partition_source(s: &str) -> (String, String) {
     (before, after)
 }
 
-struct RenderItemContext<'a> {
-    handlebars: &'a Handlebars<'a>,
-    destination: PathBuf,
-    data: serde_json::Map<String, serde_json::Value>,
-    is_index: bool,
-    book_config: BookConfig,
-    html_config: HtmlConfig,
-    edition: Option<RustEdition>,
-    chapter_titles: &'a HashMap<PathBuf, String>,
+pub struct RenderItemContext<'a> {
+    pub handlebars: &'a Handlebars<'a>,
+    pub destination: PathBuf,
+    pub data: serde_json::Map<String, serde_json::Value>,
+    pub is_index: bool,
+    pub book_config: BookConfig,
+    pub html_config: HtmlConfig,
+    pub edition: Option<RustEdition>,
+    pub chapter_titles: &'a HashMap<PathBuf, String>,
 }
 
 #[cfg(test)]

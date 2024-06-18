@@ -2,7 +2,7 @@ mod dummy_book;
 
 use crate::dummy_book::DummyBook;
 
-use mdbook::MDBook;
+use mdbook_fork4ls::MDBook;
 
 #[test]
 fn mdbook_can_correctly_test_a_passing_book() {

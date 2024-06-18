@@ -147,8 +147,8 @@ impl MDBook {
     /// `(section: String, bookitem: &BookItem)`
     ///
     /// ```no_run
-    /// # use mdbook::MDBook;
-    /// # use mdbook::book::BookItem;
+    /// # use mdbook_fork4ls::MDBook;
+    /// # use mdbook_fork4ls::book::BookItem;
     /// # let book = MDBook::load("mybook").unwrap();
     /// for item in book.iter() {
     ///     match *item {

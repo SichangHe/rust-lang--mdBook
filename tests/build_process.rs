@@ -1,12 +1,12 @@
 mod dummy_book;
 
 use crate::dummy_book::DummyBook;
-use mdbook::book::Book;
-use mdbook::config::Config;
-use mdbook::errors::*;
-use mdbook::preprocess::{Preprocessor, PreprocessorContext};
-use mdbook::renderer::{RenderContext, Renderer};
-use mdbook::MDBook;
+use mdbook_fork4ls::book::Book;
+use mdbook_fork4ls::config::Config;
+use mdbook_fork4ls::errors::*;
+use mdbook_fork4ls::preprocess::{Preprocessor, PreprocessorContext};
+use mdbook_fork4ls::renderer::{RenderContext, Renderer};
+use mdbook_fork4ls::MDBook;
 use std::sync::{Arc, Mutex};
 
 struct Spy(Arc<Mutex<Inner>>);

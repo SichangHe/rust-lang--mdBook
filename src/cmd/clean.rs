@@ -1,7 +1,7 @@
 use super::command_prelude::*;
 use crate::get_book_dir;
 use anyhow::Context;
-use mdbook::MDBook;
+use mdbook_fork4ls::MDBook;
 use std::fs;
 use std::path::PathBuf;
 
@@ -14,7 +14,7 @@ pub fn make_subcommand() -> Command {
 }
 
 // Clean command implementation
-pub fn execute(args: &ArgMatches) -> mdbook::errors::Result<()> {
+pub fn execute(args: &ArgMatches) -> mdbook_fork4ls::errors::Result<()> {
     let book_dir = get_book_dir(args);
     let book = MDBook::load(book_dir)?;
 

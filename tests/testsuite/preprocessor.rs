@@ -1,9 +1,9 @@
 //! Tests for custom preprocessors.
 
 use crate::prelude::*;
-use mdbook::book::Book;
-use mdbook::errors::Result;
-use mdbook::preprocess::{CmdPreprocessor, Preprocessor, PreprocessorContext};
+use mdbook_fork4ls::book::Book;
+use mdbook_fork4ls::errors::Result;
+use mdbook_fork4ls::preprocess::{CmdPreprocessor, Preprocessor, PreprocessorContext};
 use std::sync::{Arc, Mutex};
 
 struct Spy(Arc<Mutex<Inner>>);
@@ -46,8 +46,8 @@ fn runs_preprocessors() {
 fn nop_preprocessor() {
     BookTest::from_dir("preprocessor/nop_preprocessor").run("build", |cmd| {
         cmd.expect_stdout(str![[""]]).expect_stderr(str![[r#"
-[TIMESTAMP] [INFO] (mdbook::book): Book building has started
-[TIMESTAMP] [INFO] (mdbook::book): Running the html backend
+[TIMESTAMP] [INFO] (mdbook_fork4ls::book): Book building has started
+[TIMESTAMP] [INFO] (mdbook_fork4ls::book): Running the html backend
 
 "#]]);
     });
@@ -61,9 +61,9 @@ fn failing_preprocessor() {
             cmd.expect_failure()
                 .expect_stdout(str![[""]])
                 .expect_stderr(str![[r#"
-[TIMESTAMP] [INFO] (mdbook::book): Book building has started
+[TIMESTAMP] [INFO] (mdbook_fork4ls::book): Book building has started
 Boom!!1!
-[TIMESTAMP] [ERROR] (mdbook::utils): Error: The "nop-preprocessor" preprocessor exited unsuccessfully with [EXIT_STATUS]: 1 status
+[TIMESTAMP] [ERROR] (mdbook_fork4ls::utils): Error: The "nop-preprocessor" preprocessor exited unsuccessfully with [EXIT_STATUS]: 1 status
 
 "#]]);
         });

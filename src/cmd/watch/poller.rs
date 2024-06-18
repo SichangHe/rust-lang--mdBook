@@ -5,7 +5,7 @@
 //! had problems correctly reporting changes.
 
 use ignore::gitignore::Gitignore;
-use mdbook::MDBook;
+use mdbook_fork4ls::MDBook;
 use pathdiff::diff_paths;
 use std::collections::HashMap;
 use std::fs::FileType;

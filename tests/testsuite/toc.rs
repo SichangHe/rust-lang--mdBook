@@ -2,7 +2,7 @@
 
 use crate::prelude::*;
 use anyhow::Context;
-use mdbook::errors::*;
+use mdbook_fork4ls::errors::*;
 use select::document::Document;
 use select::predicate::{Attr, Class, Name, Predicate};
 use std::fs;

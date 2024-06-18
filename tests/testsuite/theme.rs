@@ -9,10 +9,10 @@ fn missing_theme() {
     .run("build", |cmd| {
 cmd.expect_failure()
         .expect_stderr(str![[r#"
-[TIMESTAMP] [INFO] (mdbook::book): Book building has started
-[TIMESTAMP] [INFO] (mdbook::book): Running the html backend
-[TIMESTAMP] [ERROR] (mdbook::utils): Error: Rendering failed
-[TIMESTAMP] [ERROR] (mdbook::utils): [TAB]Caused By: theme dir [ROOT]/./non-existent-directory does not exist
+[TIMESTAMP] [INFO] (mdbook_fork4ls::book): Book building has started
+[TIMESTAMP] [INFO] (mdbook_fork4ls::book): Running the html backend
+[TIMESTAMP] [ERROR] (mdbook_fork4ls::utils): Error: Rendering failed
+[TIMESTAMP] [ERROR] (mdbook_fork4ls::utils): [TAB]Caused By: theme dir [ROOT]/./non-existent-directory does not exist
 
 "#]]);
     });
@@ -24,8 +24,8 @@ fn empty_theme() {
     BookTest::from_dir("theme/empty_theme").run("build", |cmd| {
         std::fs::create_dir(cmd.dir.join("theme")).unwrap();
         cmd.expect_stderr(str![[r#"
-[TIMESTAMP] [INFO] (mdbook::book): Book building has started
-[TIMESTAMP] [INFO] (mdbook::book): Running the html backend
+[TIMESTAMP] [INFO] (mdbook_fork4ls::book): Book building has started
+[TIMESTAMP] [INFO] (mdbook_fork4ls::book): Running the html backend
 
 "#]]);
     });
@@ -144,9 +144,9 @@ fn copy_fonts_false_no_theme() {
     BookTest::from_dir("theme/copy_fonts_false_no_theme")
         .run("build", |cmd| {
             cmd.expect_stderr(str![[r#"
-[TIMESTAMP] [INFO] (mdbook::book): Book building has started
-[TIMESTAMP] [INFO] (mdbook::book): Running the html backend
-[TIMESTAMP] [WARN] (mdbook::renderer::html_handlebars::static_files): output.html.copy-fonts is deprecated.
+[TIMESTAMP] [INFO] (mdbook_fork4ls::book): Book building has started
+[TIMESTAMP] [INFO] (mdbook_fork4ls::book): Running the html backend
+[TIMESTAMP] [WARN] (mdbook_fork4ls::renderer::html_handlebars::static_files): output.html.copy-fonts is deprecated.
 This book appears to have copy-fonts=false in book.toml without a fonts.css file.
 Add an empty `theme/fonts/fonts.css` file to squelch this warning.
 
@@ -162,8 +162,8 @@ fn copy_fonts_false_with_empty_fonts_css() {
     BookTest::from_dir("theme/copy_fonts_false_with_empty_fonts_css")
         .run("build", |cmd| {
             cmd.expect_stderr(str![[r#"
-[TIMESTAMP] [INFO] (mdbook::book): Book building has started
-[TIMESTAMP] [INFO] (mdbook::book): Running the html backend
+[TIMESTAMP] [INFO] (mdbook_fork4ls::book): Book building has started
+[TIMESTAMP] [INFO] (mdbook_fork4ls::book): Running the html backend
 
 "#]]);
         })
@@ -177,8 +177,8 @@ fn copy_fonts_false_with_fonts_css() {
     BookTest::from_dir("theme/copy_fonts_false_with_fonts_css")
         .run("build", |cmd| {
             cmd.expect_stderr(str![[r#"
-[TIMESTAMP] [INFO] (mdbook::book): Book building has started
-[TIMESTAMP] [INFO] (mdbook::book): Running the html backend
+[TIMESTAMP] [INFO] (mdbook_fork4ls::book): Book building has started
+[TIMESTAMP] [INFO] (mdbook_fork4ls::book): Running the html backend
 
 "#]]);
         })

@@ -45,9 +45,9 @@ fn recursive_include() {
     BookTest::from_dir("includes/all_includes")
         .run("build", |cmd| {
             cmd.expect_stderr(str![[r#"
-[TIMESTAMP] [INFO] (mdbook::book): Book building has started
-[TIMESTAMP] [ERROR] (mdbook::preprocess::links): Stack depth exceeded in recursive.md. Check for cyclic includes
-[TIMESTAMP] [INFO] (mdbook::book): Running the html backend
+[TIMESTAMP] [INFO] (mdbook_fork4ls::book): Book building has started
+[TIMESTAMP] [ERROR] (mdbook_fork4ls::preprocess::links): Stack depth exceeded in recursive.md. Check for cyclic includes
+[TIMESTAMP] [INFO] (mdbook_fork4ls::book): Running the html backend
 
 "#]]);
         })

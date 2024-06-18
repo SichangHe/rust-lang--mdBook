@@ -1,7 +1,7 @@
 //! Tests for `mdbook init`.
 
 use crate::prelude::*;
-use mdbook::{Config, MDBook};
+use mdbook_fork4ls::{Config, MDBook};
 use std::path::PathBuf;
 
 // Tests "init" with no args.
@@ -18,7 +18,7 @@ All done, no errors...
 
 "#]])
             .expect_stderr(str![[r#"
-[TIMESTAMP] [INFO] (mdbook::book::init): Creating a new book with stub content
+[TIMESTAMP] [INFO] (mdbook_fork4ls::book::init): Creating a new book with stub content
 
 "#]]);
     })
@@ -84,7 +84,7 @@ All done, no errors...
 
 "#]])
             .expect_stderr(str![[r#"
-[TIMESTAMP] [INFO] (mdbook::book::init): Creating a new book with stub content
+[TIMESTAMP] [INFO] (mdbook_fork4ls::book::init): Creating a new book with stub content
 
 "#]]);
     })
@@ -116,7 +116,7 @@ All done, no errors...
 
 "#]])
             .expect_stderr(str![[r#"
-[TIMESTAMP] [INFO] (mdbook::book::init): Creating a new book with stub content
+[TIMESTAMP] [INFO] (mdbook_fork4ls::book::init): Creating a new book with stub content
 
 "#]])
             .args(&["--title", "Example title"]);

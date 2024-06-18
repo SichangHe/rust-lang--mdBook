@@ -10,8 +10,8 @@ use crate::prelude::*;
 fn basic_build() {
     BookTest::from_dir("build/basic_build").run("build", |cmd| {
         cmd.expect_stderr(str![[r#"
-[TIMESTAMP] [INFO] (mdbook::book): Book building has started
-[TIMESTAMP] [INFO] (mdbook::book): Running the html backend
+[TIMESTAMP] [INFO] (mdbook_fork4ls::book): Book building has started
+[TIMESTAMP] [INFO] (mdbook_fork4ls::book): Running the html backend
 
 "#]]);
     });
@@ -23,8 +23,8 @@ fn basic_build() {
 fn failure_on_missing_file() {
     BookTest::from_dir("build/missing_file").run("build", |cmd| {
         cmd.expect_failure().expect_stderr(str![[r#"
-[TIMESTAMP] [ERROR] (mdbook::utils): Error: Chapter file not found, ./chapter_1.md
-[TIMESTAMP] [ERROR] (mdbook::utils): [TAB]Caused By: [NOT_FOUND]
+[TIMESTAMP] [ERROR] (mdbook_fork4ls::utils): Error: Chapter file not found, ./chapter_1.md
+[TIMESTAMP] [ERROR] (mdbook_fork4ls::utils): [TAB]Caused By: [NOT_FOUND]
 
 "#]]);
     });
@@ -45,10 +45,10 @@ fn create_missing() {
 fn no_reserved_filename() {
     BookTest::from_dir("build/no_reserved_filename").run("build", |cmd| {
         cmd.expect_failure().expect_stderr(str![[r#"
-[TIMESTAMP] [INFO] (mdbook::book): Book building has started
-[TIMESTAMP] [INFO] (mdbook::book): Running the html backend
-[TIMESTAMP] [ERROR] (mdbook::utils): Error: Rendering failed
-[TIMESTAMP] [ERROR] (mdbook::utils): [TAB]Caused By: print.md is reserved for internal use
+[TIMESTAMP] [INFO] (mdbook_fork4ls::book): Book building has started
+[TIMESTAMP] [INFO] (mdbook_fork4ls::book): Running the html backend
+[TIMESTAMP] [ERROR] (mdbook_fork4ls::utils): Error: Rendering failed
+[TIMESTAMP] [ERROR] (mdbook_fork4ls::utils): [TAB]Caused By: print.md is reserved for internal use
 
 "#]]);
     });

@@ -33,6 +33,7 @@ use crate::utils;
 use crate::config::{Config, RustEdition};
 
 /// The object used to manage and build a book.
+#[derive(Default)]
 pub struct MDBook {
     /// The book's root directory.
     pub root: PathBuf,

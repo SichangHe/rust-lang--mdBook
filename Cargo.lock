@@ -1138,7 +1138,17 @@ dependencies = [
 ]
 
 [[package]]
-name = "mdbook"
+name = "mdbook-remove-emphasis"
+version = "0.1.0"
+dependencies = [
+ "mdbook_fork4ls",
+ "pulldown-cmark 0.12.2",
+ "pulldown-cmark-to-cmark",
+ "serde_json",
+]
+
+[[package]]
+name = "mdbook_fork4ls"
 version = "0.4.43"
 dependencies = [
  "ammonia",
@@ -1174,16 +1184,6 @@ dependencies = [
  "topological-sort",
  "walkdir",
  "warp",
-]
-
-[[package]]
-name = "mdbook-remove-emphasis"
-version = "0.1.0"
-dependencies = [
- "mdbook",
- "pulldown-cmark 0.12.2",
- "pulldown-cmark-to-cmark",
- "serde_json",
 ]
 
 [[package]]

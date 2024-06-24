@@ -42,9 +42,9 @@ pub struct MDBook {
     /// A representation of the book's contents in memory.
     pub book: Book,
     /// List of renderers to render the book.
-    pub renderers: Vec<Box<dyn Renderer + Send + 'static>>,
+    pub renderers: Vec<Box<dyn Renderer + Send + Sync + 'static>>,
     /// List of pre-processors to be run on the book.
-    pub preprocessors: Vec<Box<dyn Preprocessor + Send + 'static>>,
+    pub preprocessors: Vec<Box<dyn Preprocessor + Send + Sync + 'static>>,
 }
 
 impl MDBook {
@@ -246,13 +246,13 @@ impl MDBook {
     /// You can change the default renderer to another one by using this method.
     /// The only requirement is that your renderer implement the [`Renderer`]
     /// trait.
-    pub fn with_renderer<R: Renderer + Send + 'static>(&mut self, renderer: R) -> &mut Self {
+    pub fn with_renderer<R: Renderer + Send + Sync + 'static>(&mut self, renderer: R) -> &mut Self {
         self.renderers.push(Box::new(renderer));
         self
     }
 
     /// Register a [`Preprocessor`] to be used when rendering the book.
-    pub fn with_preprocessor<P: Preprocessor + Send + 'static>(
+    pub fn with_preprocessor<P: Preprocessor + Send + Sync + 'static>(
         &mut self,
         preprocessor: P,
     ) -> &mut Self {
@@ -435,19 +435,21 @@ impl MDBook {
 }
 
 /// Look at the `Config` and try to figure out what renderers to use.
-fn determine_renderers(config: &Config) -> Vec<Box<dyn Renderer + Send + 'static>> {
+fn determine_renderers(config: &Config) -> Vec<Box<dyn Renderer + Send + Sync + 'static>> {
     let mut renderers = Vec::new();
 
     if let Some(output_table) = config.get("output").and_then(Value::as_table) {
-        renderers.extend(output_table.iter().map(|(key, table)| {
-            if key == "html" {
-                Box::new(HtmlHandlebars::new()) as Box<dyn Renderer + Send + 'static>
-            } else if key == "markdown" {
-                Box::new(MarkdownRenderer::new()) as Box<dyn Renderer + Send + 'static>
-            } else {
-                interpret_custom_renderer(key, table)
-            }
-        }));
+        renderers.extend(output_table.iter().map(
+            |(key, table)| -> Box<dyn Renderer + Send + Sync + 'static> {
+                if key == "html" {
+                    Box::new(HtmlHandlebars::new())
+                } else if key == "markdown" {
+                    Box::new(MarkdownRenderer::new())
+                } else {
+                    interpret_custom_renderer(key, table)
+                }
+            },
+        ));
     }
 
     // if we couldn't find anything, add the HTML renderer as a default
@@ -466,7 +468,9 @@ fn is_default_preprocessor(pre: &dyn Preprocessor) -> bool {
 }
 
 /// Look at the `MDBook` and try to figure out what preprocessors to run.
-fn determine_preprocessors(config: &Config) -> Result<Vec<Box<dyn Preprocessor + Send + 'static>>> {
+fn determine_preprocessors(
+    config: &Config,
+) -> Result<Vec<Box<dyn Preprocessor + Send + Sync + 'static>>> {
     // Collect the names of all preprocessors intended to be run, and the order
     // in which they should be run.
     let mut preprocessor_names = TopologicalSort::<String>::new();
@@ -552,7 +556,7 @@ fn determine_preprocessors(config: &Config) -> Result<Vec<Box<dyn Preprocessor +
         // [1]: https://doc.rust-lang.org/stable/std/cmp/trait.Ord.html#impl-Ord-14
         names.sort();
         for name in names {
-            let preprocessor: Box<dyn Preprocessor + Send + 'static> = match name.as_str() {
+            let preprocessor: Box<dyn Preprocessor + Send + Sync + 'static> = match name.as_str() {
                 "links" => Box::new(LinkPreprocessor::new()),
                 "index" => Box::new(IndexPreprocessor::new()),
                 _ => {

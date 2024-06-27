@@ -32,8 +32,9 @@ pub struct PreprocessorContext {
     /// Renamed chapter paths and titles.
     #[serde(skip)]
     pub chapter_titles: RefCell<HashMap<PathBuf, String>>,
+    #[doc(hidden)]
     #[serde(skip)]
-    __non_exhaustive: (),
+    pub __non_exhaustive: (),
 }
 
 impl PreprocessorContext {

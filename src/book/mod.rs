@@ -605,7 +605,7 @@ fn interpret_custom_renderer(key: &str, table: &Value) -> Box<CmdRenderer> {
 ///
 /// The `build.use-default-preprocessors` config option can be used to ensure
 /// default preprocessors always run if they support the renderer.
-fn preprocessor_should_run(
+pub fn preprocessor_should_run(
     preprocessor: &dyn Preprocessor,
     renderer: &dyn Renderer,
     cfg: &Config,

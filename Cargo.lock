@@ -977,7 +977,7 @@ dependencies = [
 
 [[package]]
 name = "mdbook_fork4ls"
-version = "0.4.41-patch.1"
+version = "0.4.41-patch.2"
 dependencies = [
  "ammonia",
  "anyhow",

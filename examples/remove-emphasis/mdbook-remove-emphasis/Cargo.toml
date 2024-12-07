@@ -5,7 +5,7 @@ edition = "2021"
 publish = false
 
 [dependencies]
-mdbook = { package = "mdbook_fork4ls", version = "0.4.40", path = "../../.." }
+mdbook = { package = "mdbook_fork4ls", version = "0.4.44", path = "../../.." }
 pulldown-cmark = { version = "0.12.2", default-features = false }
 pulldown-cmark-to-cmark = "18.0.0"
 rayon = "1.10"

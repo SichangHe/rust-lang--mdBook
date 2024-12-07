@@ -109,6 +109,14 @@ impl Book {
         for_each_mut(&mut func, &mut self.sections);
     }
 
+    /// Recursively collect all chapters in the book as mutable thin references,
+    /// allowing you to mutate them in parallel.
+    pub fn chapters_mut_thin(&mut self) -> Vec<ChapterMutThin<'_>> {
+        let mut chapters_thin = Vec::new();
+        chapters_mut_thin(&mut self.sections, &mut chapters_thin);
+        chapters_thin
+    }
+
     /// Append a `BookItem` to the `Book`.
     pub fn push_item<I: Into<BookItem>>(&mut self, item: I) -> &mut Self {
         self.sections.push(item.into());
@@ -128,6 +136,32 @@ where
 
         func(item);
     }
+}
+
+/// Collect all chapters in the book.
+pub fn chapters_mut_thin<'a>(items: &'a mut [BookItem], accumulator: &mut Vec<ChapterMutThin<'a>>) {
+    items.iter_mut().for_each(move |item| {
+        if let BookItem::Chapter(Chapter {
+            name,
+            content,
+            number,
+            sub_items,
+            path,
+            source_path,
+            parent_names,
+        }) = item
+        {
+            accumulator.push(ChapterMutThin {
+                name,
+                content,
+                number,
+                path,
+                source_path,
+                parent_names,
+            });
+            chapters_mut_thin(sub_items, accumulator);
+        }
+    })
 }
 
 /// Enum representing any type of item which can be added to a book.
@@ -211,6 +245,29 @@ impl Chapter {
         }
     }
 
+    /// Check if the chapter is a draft chapter, meaning it has no path to a source markdown file.
+    pub fn is_draft_chapter(&self) -> bool {
+        self.path.is_none()
+    }
+}
+
+/// A thin mutable preference to a chapter for parallel book patching.
+pub struct ChapterMutThin<'a> {
+    /// The chapter's name.
+    pub name: &'a mut String,
+    /// The chapter's contents.
+    pub content: &'a mut String,
+    /// The chapter's section number, if it has one.
+    pub number: &'a mut Option<SectionNumber>,
+    /// The chapter's location, relative to the `SUMMARY.md` file.
+    pub path: &'a mut Option<PathBuf>,
+    /// The chapter's source file, relative to the `SUMMARY.md` file.
+    pub source_path: &'a mut Option<PathBuf>,
+    /// An ordered list of the names of each chapter above this one in the hierarchy.
+    pub parent_names: &'a mut Vec<String>,
+}
+
+impl<'a> ChapterMutThin<'a> {
     /// Check if the chapter is a draft chapter, meaning it has no path to a source markdown file.
     pub fn is_draft_chapter(&self) -> bool {
         self.path.is_none()

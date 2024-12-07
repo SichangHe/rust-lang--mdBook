@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.4.44](https://github.com/SichangHe/rust-lang--mdBook/compare/mdbook_fork4ls-v0.4.43...mdbook_fork4ls-v0.4.44) - 2024-12-07
+
+### Added
+
+- `ChapterMutThin` to iterate mut chapters in parallel;example
+
 ## mdBook 0.4.43
 [v0.4.42...v0.4.43](https://github.com/rust-lang/mdBook/compare/v0.4.42...v0.4.43)
 

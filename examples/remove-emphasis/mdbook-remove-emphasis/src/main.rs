@@ -1,10 +1,9 @@
 //! This is a demonstration of an mdBook preprocessor which parses markdown
 //! and removes any instances of emphasis.
 
-use mdbook_fork4ls::book::{Book, Chapter};
+use mdbook_fork4ls::book::{Book, ChapterMutThin};
 use mdbook_fork4ls::errors::Error;
 use mdbook_fork4ls::preprocess::{CmdPreprocessor, Preprocessor, PreprocessorContext};
-use mdbook_fork4ls::BookItem;
 use pulldown_cmark::{Event, Parser, Tag, TagEnd};
 use rayon::iter::{IntoParallelIterator, ParallelIterator};
 use std::io;

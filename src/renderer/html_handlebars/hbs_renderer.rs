@@ -4,7 +4,7 @@ use crate::errors::*;
 use crate::renderer::html_handlebars::helpers;
 use crate::renderer::html_handlebars::StaticFiles;
 use crate::renderer::{RenderContext, Renderer};
-use crate::theme::{self, Theme};
+use crate::theme::{self, playground_editor, Theme};
 use crate::utils;
 
 use std::borrow::Cow;

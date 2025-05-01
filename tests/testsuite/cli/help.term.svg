@@ -16,11 +16,11 @@
   <rect width="100%" height="100%" y="0" rx="4.5" class="bg" />
 
   <text xml:space="preserve" class="container fg">
-    <tspan x="10px" y="28px"><tspan>Creates a book from markdown files</tspan>
+    <tspan x="10px" y="28px"><tspan>Fork of mdBook for mdBook_LS</tspan>
 </tspan>
     <tspan x="10px" y="46px">
 </tspan>
-    <tspan x="10px" y="64px"><tspan>Usage: mdbook[EXE] [COMMAND]</tspan>
+    <tspan x="10px" y="64px"><tspan>Usage: mdbook_fork4ls [COMMAND]</tspan>
 </tspan>
     <tspan x="10px" y="82px">
 </tspan>

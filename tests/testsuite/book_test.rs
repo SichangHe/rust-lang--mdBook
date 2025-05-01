@@ -313,7 +313,7 @@ impl BookCommand {
 
     /// Runs the command, and verifies the output.
     fn run(&mut self) {
-        let mut cmd = Command::new(env!("CARGO_BIN_EXE_mdbook"));
+        let mut cmd = Command::new(env!("CARGO_BIN_EXE_mdbook_fork4ls"));
         cmd.current_dir(&self.dir)
             .args(&self.args)
             .env_remove("RUST_LOG")
@@ -424,7 +424,8 @@ fn assert(root: &Path) -> snapbox::Assert {
         regex!(r"(?m)(?<redacted>20\d\d-\d{2}-\d{2} \d{2}:\d{2}:\d{2})"),
     )
     .unwrap();
-    subs.insert("[VERSION]", mdbook_fork4ls::MDBOOK_VERSION).unwrap();
+    subs.insert("[VERSION]", mdbook_fork4ls::MDBOOK_VERSION)
+        .unwrap();
 
     subs.extend(LITERAL_REDACTIONS.into_iter().cloned())
         .unwrap();

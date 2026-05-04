@@ -1,10 +1,11 @@
 //! This is a demonstration of an mdBook preprocessor which parses markdown
 //! and removes any instances of emphasis.
 
-use mdbook_preprocessor::book::{Book, Chapter};
+use mdbook_preprocessor::book::{Book, ChapterMutThin};
 use mdbook_preprocessor::errors::Result;
 use mdbook_preprocessor::{Preprocessor, PreprocessorContext};
 use pulldown_cmark::{Event, Parser, Tag, TagEnd};
+use rayon::iter::{IntoParallelIterator, ParallelIterator};
 use std::io;
 
 fn main() {
@@ -35,21 +36,31 @@ impl Preprocessor for RemoveEmphasis {
     }
 
     fn run(&self, _ctx: &PreprocessorContext, mut book: Book) -> Result<Book> {
-        let mut total = 0;
-        book.for_each_chapter_mut(|ch| match remove_emphasis(&mut total, ch) {
-            Ok(s) => ch.content = s,
-            Err(e) => eprintln!("failed to process chapter: {e:?}"),
-        });
+        let total: usize = book
+            .chapters_mut_thin()
+            .into_par_iter()
+            .map(|ch| {
+                if ch.is_draft_chapter() {
+                    return 0;
+                }
+                let mut total = 0;
+                match remove_emphasis(&mut total, &ch) {
+                    Ok(s) => *ch.content = s,
+                    Err(e) => eprintln!("failed to process chapter: {e:?}"),
+                }
+                total
+            })
+            .sum();
         eprintln!("removed {total} emphasis");
         Ok(book)
     }
 }
 
 // ANCHOR: remove_emphasis
-fn remove_emphasis(num_removed_items: &mut usize, chapter: &mut Chapter) -> Result<String> {
+fn remove_emphasis(num_removed_items: &mut usize, chapter: &ChapterMutThin) -> Result<String> {
     let mut buf = String::with_capacity(chapter.content.len());
 
-    let events = Parser::new(&chapter.content).filter(|e| match e {
+    let events = Parser::new(chapter.content).filter(|e| match e {
         Event::Start(Tag::Emphasis) | Event::Start(Tag::Strong) => {
             *num_removed_items += 1;
             false

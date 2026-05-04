@@ -84,7 +84,7 @@ fn build_books(out_dir: &Path) {
             continue;
         }
         println!("Building `{}`", path.display());
-        let mut cmd = Command::new(env!("CARGO_BIN_EXE_mdbook"));
+        let mut cmd = Command::new(env!("CARGO_BIN_EXE_mdbook_fork4ls"));
         let output = cmd
             .arg("build")
             .arg("--dest-dir")

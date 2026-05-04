@@ -1,11 +1,14 @@
 [package]
-name = "mdbook-html"
+name = "mdbook_html_fork4ls"
 version = "0.5.2"
 description = "mdBook HTML renderer"
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
 rust-version.workspace = true
+
+[lib]
+name = "mdbook_html"
 
 [dependencies]
 anyhow.workspace = true

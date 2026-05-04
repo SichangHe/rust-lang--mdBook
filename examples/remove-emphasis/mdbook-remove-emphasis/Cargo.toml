@@ -8,6 +8,7 @@ publish = false
 mdbook-preprocessor.workspace = true
 pulldown-cmark = { workspace = true, default-features = false }
 pulldown-cmark-to-cmark = "22.0.0"
+rayon = "1"
 serde_json.workspace = true
 
 [[bin]]

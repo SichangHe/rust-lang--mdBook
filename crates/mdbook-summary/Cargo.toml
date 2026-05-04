@@ -1,11 +1,14 @@
 [package]
-name = "mdbook-summary"
+name = "mdbook_summary_fork4ls"
 version = "0.5.2"
 description = "Summary parser for mdBook"
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
 rust-version.workspace = true
+
+[lib]
+name = "mdbook_summary"
 
 [dependencies]
 anyhow.workspace = true

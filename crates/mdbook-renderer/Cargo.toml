@@ -1,11 +1,14 @@
 [package]
-name = "mdbook-renderer"
+name = "mdbook_renderer_fork4ls"
 version = "0.5.2"
 description = "Library to assist implementing an mdBook renderer"
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
 rust-version.workspace = true
+
+[lib]
+name = "mdbook_renderer"
 
 [dependencies]
 anyhow.workspace = true

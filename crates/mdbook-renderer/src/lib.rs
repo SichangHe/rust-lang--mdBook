@@ -25,7 +25,7 @@ pub use mdbook_core::errors;
 /// [`MDBook::with_renderer`] to programmatically add renderers.
 ///
 /// [`MDBook::with_renderer`]: https://docs.rs/mdbook-driver/latest/mdbook_driver/struct.MDBook.html#method.with_renderer
-pub trait Renderer {
+pub trait Renderer: Send + Sync {
     /// The `Renderer`'s name.
     fn name(&self) -> &str;
 

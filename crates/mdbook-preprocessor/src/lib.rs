@@ -27,7 +27,7 @@ pub use mdbook_core::errors;
 /// [`MDBook::with_preprocessor`] to programmatically add preprocessors.
 ///
 /// [`MDBook::with_preprocessor`]: https://docs.rs/mdbook-driver/latest/mdbook_driver/struct.MDBook.html#method.with_preprocessor
-pub trait Preprocessor {
+pub trait Preprocessor: Send + Sync {
     /// Get the `Preprocessor`'s name.
     fn name(&self) -> &str;
 

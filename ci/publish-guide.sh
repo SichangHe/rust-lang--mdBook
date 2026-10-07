@@ -7,7 +7,7 @@ set -ex
 
 cargo run --no-default-features -F search -- build guide
 
-VERSION=$(cargo metadata --format-version 1 --no-deps | jq '.packages[] | select(.name == "mdbook") | .version')
+VERSION=$(cargo metadata --format-version 1 --no-deps | jq '.packages[] | select(.name == "mdbook_fork4ls") | .version')
 
 if [[ "$VERSION" == *-* ]]; then
     PRERELEASE=true

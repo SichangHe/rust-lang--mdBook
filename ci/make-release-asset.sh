@@ -13,11 +13,12 @@ TAG=${GITHUB_REF#*/tags/}
 host=$(rustc -Vv | grep ^host: | sed -e "s/host: //g")
 target=$2
 export CARGO_PROFILE_RELEASE_LTO=true
-cargo build --locked --bin mdbook --release --target $target
+cargo build --locked --bin mdbook_fork4ls --release --target $target
 cd target/$target/release
 case $1 in
   ubuntu*)
     asset="mdbook-$TAG-$target.tar.gz"
+    cp mdbook_fork4ls mdbook
     tar czf ../../$asset mdbook
     ;;
   macos*)
@@ -28,10 +29,12 @@ case $1 in
     # information. An alternative solution here is to install GNU tar, but
     # flushing the disk cache seems to work, too.
     sudo /usr/sbin/purge
+    cp mdbook_fork4ls mdbook
     tar czf ../../$asset mdbook
     ;;
   windows*)
     asset="mdbook-$TAG-$target.zip"
+    cp mdbook_fork4ls.exe mdbook.exe
     7z a ../../$asset mdbook.exe
     ;;
   *)
